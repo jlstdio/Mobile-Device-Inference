@@ -1040,3 +1040,4 @@ xcuserdata/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.toptal.com/developers/gitignore/api/xcode
+LLM_w_LoRA_on_MediaPipe/app/src/main/assets/

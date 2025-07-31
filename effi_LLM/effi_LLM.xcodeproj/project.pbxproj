@@ -6,6 +6,17 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D318C0802DF6C02700894CDC /* backend_coreml in Frameworks */ = {isa = PBXBuildFile; productRef = D318C07F2DF6C02700894CDC /* backend_coreml */; };
+		D318C0822DF6C02700894CDC /* backend_mps in Frameworks */ = {isa = PBXBuildFile; productRef = D318C0812DF6C02700894CDC /* backend_mps */; };
+		D318C0842DF6C02700894CDC /* backend_xnnpack in Frameworks */ = {isa = PBXBuildFile; productRef = D318C0832DF6C02700894CDC /* backend_xnnpack */; };
+		D318C0862DF6C02700894CDC /* executorch in Frameworks */ = {isa = PBXBuildFile; productRef = D318C0852DF6C02700894CDC /* executorch */; };
+		D318C0882DF6C02700894CDC /* kernels_custom in Frameworks */ = {isa = PBXBuildFile; productRef = D318C0872DF6C02700894CDC /* kernels_custom */; };
+		D318C08A2DF6C02700894CDC /* kernels_optimized in Frameworks */ = {isa = PBXBuildFile; productRef = D318C0892DF6C02700894CDC /* kernels_optimized */; };
+		D318C08C2DF6C02700894CDC /* kernels_portable in Frameworks */ = {isa = PBXBuildFile; productRef = D318C08B2DF6C02700894CDC /* kernels_portable */; };
+		D318C08E2DF6C02700894CDC /* kernels_quantized in Frameworks */ = {isa = PBXBuildFile; productRef = D318C08D2DF6C02700894CDC /* kernels_quantized */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		D382C4F72DEFEFBF006632E3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +63,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D318C0862DF6C02700894CDC /* executorch in Frameworks */,
+				D318C08E2DF6C02700894CDC /* kernels_quantized in Frameworks */,
+				D318C0822DF6C02700894CDC /* backend_mps in Frameworks */,
+				D318C0802DF6C02700894CDC /* backend_coreml in Frameworks */,
+				D318C0842DF6C02700894CDC /* backend_xnnpack in Frameworks */,
+				D318C0882DF6C02700894CDC /* kernels_custom in Frameworks */,
+				D318C08C2DF6C02700894CDC /* kernels_portable in Frameworks */,
+				D318C08A2DF6C02700894CDC /* kernels_optimized in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +131,14 @@
 			);
 			name = effi_LLM;
 			packageProductDependencies = (
+				D318C07F2DF6C02700894CDC /* backend_coreml */,
+				D318C0812DF6C02700894CDC /* backend_mps */,
+				D318C0832DF6C02700894CDC /* backend_xnnpack */,
+				D318C0852DF6C02700894CDC /* executorch */,
+				D318C0872DF6C02700894CDC /* kernels_custom */,
+				D318C0892DF6C02700894CDC /* kernels_optimized */,
+				D318C08B2DF6C02700894CDC /* kernels_portable */,
+				D318C08D2DF6C02700894CDC /* kernels_quantized */,
 			);
 			productName = effi_LLM;
 			productReference = D382C4E62DEFEFBE006632E3 /* effi_LLM.app */;
@@ -195,6 +222,9 @@
 			);
 			mainGroup = D382C4DD2DEFEFBE006632E3;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D318C07E2DF6C02700894CDC /* XCRemoteSwiftPackageReference "executorch" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D382C4E72DEFEFBE006632E3 /* Products */;
 			projectDirPath = "";
@@ -399,6 +429,7 @@
 				DEVELOPMENT_TEAM = VX6755UG9L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = effi_llm;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -428,6 +459,7 @@
 				DEVELOPMENT_TEAM = VX6755UG9L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = effi_llm;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -558,6 +590,60 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D318C07E2DF6C02700894CDC /* XCRemoteSwiftPackageReference "executorch" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pytorch/executorch";
+			requirement = {
+				branch = "swiftpm-0.6.0";
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D318C07F2DF6C02700894CDC /* backend_coreml */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D318C07E2DF6C02700894CDC /* XCRemoteSwiftPackageReference "executorch" */;
+			productName = backend_coreml;
+		};
+		D318C0812DF6C02700894CDC /* backend_mps */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D318C07E2DF6C02700894CDC /* XCRemoteSwiftPackageReference "executorch" */;
+			productName = backend_mps;
+		};
+		D318C0832DF6C02700894CDC /* backend_xnnpack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D318C07E2DF6C02700894CDC /* XCRemoteSwiftPackageReference "executorch" */;
+			productName = backend_xnnpack;
+		};
+		D318C0852DF6C02700894CDC /* executorch */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D318C07E2DF6C02700894CDC /* XCRemoteSwiftPackageReference "executorch" */;
+			productName = executorch;
+		};
+		D318C0872DF6C02700894CDC /* kernels_custom */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D318C07E2DF6C02700894CDC /* XCRemoteSwiftPackageReference "executorch" */;
+			productName = kernels_custom;
+		};
+		D318C0892DF6C02700894CDC /* kernels_optimized */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D318C07E2DF6C02700894CDC /* XCRemoteSwiftPackageReference "executorch" */;
+			productName = kernels_optimized;
+		};
+		D318C08B2DF6C02700894CDC /* kernels_portable */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D318C07E2DF6C02700894CDC /* XCRemoteSwiftPackageReference "executorch" */;
+			productName = kernels_portable;
+		};
+		D318C08D2DF6C02700894CDC /* kernels_quantized */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D318C07E2DF6C02700894CDC /* XCRemoteSwiftPackageReference "executorch" */;
+			productName = kernels_quantized;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D382C4DE2DEFEFBE006632E3 /* Project object */;
 }
