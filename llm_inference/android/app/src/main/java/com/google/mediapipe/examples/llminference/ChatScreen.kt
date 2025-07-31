@@ -1,3 +1,4 @@
+// Modify ChatScreen.kt
 package com.google.mediapipe.examples.llminference
 
 import android.content.Context
@@ -77,7 +78,10 @@ internal fun ChatRoute(
         onChangedMessage = { message ->
             chatViewModel.recomputeSizeInTokens(message)
         },
-        onClose = onClose
+        onClose = onClose,
+        onClearChat = {
+            chatViewModel.clearChatHistory() // Call clearChatHistory
+        }
     )
 }
 
@@ -90,7 +94,8 @@ fun ChatScreen(
     resetTokenCount: () -> Unit,
     onSendMessage: (String) -> Unit,
     onChangedMessage: (String) -> Unit,
-    onClose: () -> Unit
+    onClose: () -> Unit,
+    onClearChat: () -> Unit // New parameter
 ) {
     var userMessage by rememberSaveable { mutableStateOf("") }
     val tokens by remainingTokens.collectAsState(initial = -1)
@@ -121,8 +126,7 @@ fun ChatScreen(
                 IconButton(
                     onClick = {
                         InferenceModel.getInstance(context).resetSession()
-                        uiState.clearMessages()
-                        resetTokenCount()
+                        onClearChat() // Call the new onClearChat lambda
                     },
                     enabled = textInputEnabled
                 ) {
@@ -132,8 +136,7 @@ fun ChatScreen(
                 IconButton(
                     onClick = {
                         InferenceModel.getInstance(context).close()
-                        uiState.clearMessages()
-                        resetTokenCount()
+                        onClearChat() // Also clear chat on close
                         onClose()
                     },
                     enabled = textInputEnabled

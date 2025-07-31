@@ -5,7 +5,7 @@ import android.net.Uri
 
 object AuthConfig {
   // Replace these values with your actual OAuth credentials
-  const val clientId = "19943f22-042c-43f8-96bd-6522ffa8bdfe" // Hugging Face Client ID
+  const val clientId = "ce8f7d94-9d06-44b0-8c96-41a250c77022" // Hugging Face Client ID
   const val redirectUri = "com.google.mediapipe.examples.llminference://oauth2callback"
 
   // OAuth 2.0 Endpoints (Authorization + Token Exchange)

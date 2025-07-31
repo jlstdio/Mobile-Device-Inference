@@ -18,4 +18,15 @@
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
+
+# Keep MediaPipe classes and native methods
+-keep class com.google.mediapipe.** { *; }
+-keepclassmembers class com.google.mediapipe.** {
+    native <methods>;
+}
+
+# Keep Room database classes
+-keep class * extends androidx.room.RoomDatabase
+-keep @androidx.room.Entity class *
+-dontwarn androidx.room.paging.**
 #-renamesourcefileattribute SourceFile

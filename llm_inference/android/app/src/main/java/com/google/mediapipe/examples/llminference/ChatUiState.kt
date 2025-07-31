@@ -9,7 +9,7 @@ const val THINKING_MARKER_END = "</think>"
 
 /** Management of the message queue. */
 class UiState(
-    private val supportsThinking: Boolean = false,
+    val supportsThinking: Boolean = false,
     messages: List<ChatMessage> = emptyList()
 )  {
     private val _messages: MutableList<ChatMessage> = messages.toMutableStateList()

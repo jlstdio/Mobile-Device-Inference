@@ -16,6 +16,17 @@ enum class Model(
     val topK: Int,
     val topP: Float,
 ) {
+    DB_AWARE_LLM(
+        path = "/data/local/tmp/db_aware_llm.task", // Placeholder path
+        url = "https://example.com/db_aware_llm.task", // Placeholder URL
+        licenseUrl = "", // Placeholder
+        needsAuth = false, // Or true, depending on your mock model
+        preferredBackend = Backend.CPU,
+        thinking = false,
+        temperature = 0.6f,
+        topK = 50,
+        topP = 0.9f
+    ),
     GEMMA3_1B_IT_CPU(
         path = "/data/local/tmp/Gemma3-1B-IT_multi-prefill-seq_q8_ekv2048.task",
         url = "https://huggingface.co/litert-community/Gemma3-1B-IT/resolve/main/Gemma3-1B-IT_multi-prefill-seq_q8_ekv2048.task",

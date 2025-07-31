@@ -12,7 +12,7 @@ import java.io.File
 import kotlin.math.max
 
 /** The maximum number of tokens the model can process. */
-var MAX_TOKENS = 1024
+var MAX_TOKENS = 2048//1024
 
 /**
  * An offset in tokens that we use to ensure that the model always has the ability to respond when
@@ -31,11 +31,19 @@ class InferenceModel private constructor(context: Context) {
     private lateinit var llmInferenceSession: LlmInferenceSession
     private val TAG = InferenceModel::class.qualifiedName
 
-    val uiState = UiState(model.thinking)
+    // val uiState = UiState(model.thinking)
+    lateinit var uiState: UiState
 
     init {
         if (!modelExists(context)) {
             throw IllegalArgumentException("Model not found at path: ${model.path}")
+        }
+
+        // Ensure native libraries are loaded before creating engine
+        try {
+            NativeLibraryLoader.loadNativeLibraries(context)
+        } catch (e: Exception) {
+            Log.w(TAG, "Some native libraries may not be available: ${e.message}")
         }
 
         createEngine(context)
@@ -63,6 +71,14 @@ class InferenceModel private constructor(context: Context) {
             llmInference = LlmInference.createFromOptions(context, inferenceOptions)
         } catch (e: Exception) {
             Log.e(TAG, "Load model error: ${e.message}", e)
+            when {
+                e.message?.contains("libpenguin.so") == true -> {
+                    Log.e(TAG, "Native library libpenguin.so not found. This might be an ABI compatibility issue.")
+                }
+                e.message?.contains("UnsatisfiedLinkError") == true -> {
+                    Log.e(TAG, "Native library loading failed. Check if the correct ABI is included.")
+                }
+            }
             throw ModelLoadFailException()
         }
     }
@@ -104,15 +120,22 @@ class InferenceModel private constructor(context: Context) {
         private var instance: InferenceModel? = null
 
         fun getInstance(context: Context): InferenceModel {
-            return if (instance != null) {
-                instance!!
-            } else {
-                InferenceModel(context).also { instance = it }
+            if (instance == null) {
+                // Create a new instance and ensure uiState is initialized based on the current model
+                instance = InferenceModel(context).apply {
+                    uiState = UiState(InferenceModel.model.thinking)
+                }
             }
+            return instance!!
         }
 
         fun resetInstance(context: Context): InferenceModel {
-            return InferenceModel(context).also { instance = it }
+            // Recreate instance and reinitialize uiState
+            instance?.close() // Close previous instance if it exists
+            instance = InferenceModel(context).apply {
+                uiState = UiState(InferenceModel.model.thinking)
+            }
+            return instance!!
         }
 
         fun modelPathFromUrl(context: Context): String {

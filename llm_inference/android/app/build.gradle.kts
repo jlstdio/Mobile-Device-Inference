@@ -3,6 +3,8 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -31,6 +33,21 @@ android {
         }
         val hfAccessToken = properties.getProperty("HF_ACCESS_TOKEN", "")
         buildConfigField("String", "HF_ACCESS_TOKEN", "\"$hfAccessToken\"")
+
+        // Add native library support
+        ndk {
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64", "x86")
+        }
+        
+        // Ensure native libraries are extracted
+        packaging {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
+        
+        // Add manifest placeholders for better native library handling
+        manifestPlaceholders["native_library_support"] = "true"
     }
 
     buildFeatures {
@@ -63,6 +80,18 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+        jniLibs {
+            useLegacyPackaging = true
+            pickFirsts += listOf(
+                "**/libc++_shared.so",
+                "**/libtensorflowlite_jni.so"
+            )
+            // Keep all native libraries, don't exclude missing ones
+            keepDebugSymbols += listOf(
+                "**/libpenguin.so",
+                "**/libllm_inference_engine_jni.so"
+            )
+        }
     }
 }
 
@@ -83,6 +112,11 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
 
     implementation ("com.google.mediapipe:tasks-genai:0.10.22")
+    
+    // Add specific native library support
+    implementation("org.tensorflow:tensorflow-lite:2.13.0") {
+        exclude(group = "org.tensorflow", module = "tensorflow-lite-api")
+    }
 
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation("net.openid:appauth:0.11.1") // Add AppAuth for OAuth support
@@ -95,4 +129,9 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    val room_version = "2.7.2" // Using the version provided in the prompt
+    implementation("androidx.room:room-runtime:$room_version")
+    ksp("androidx.room:room-compiler:$room_version") // For Kotlin projects
+    implementation("androidx.room:room-ktx:$room_version") // For Kotlin Extensions and Coroutines support
 }
